@@ -65,6 +65,10 @@ export default {
 					highlight: '#9F7AEA',
 					muted: '#6B7280',
 				},
+				burgundy: {
+					DEFAULT: '#800020',
+					light: '#9A2A3A',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

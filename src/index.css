@@ -85,7 +85,7 @@
   }
   
   .auth-btn {
-    @apply bg-gradient-to-r from-auth-accent to-auth-highlight 
+    @apply bg-gradient-to-r from-burgundy to-burgundy-light 
            text-white font-medium py-2.5 px-4 rounded-lg
            hover:opacity-90 transition-opacity;
   }
