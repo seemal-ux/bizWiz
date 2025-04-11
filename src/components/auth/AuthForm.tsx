@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Mail, Lock, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface UserData {
   email: string;
@@ -24,18 +23,16 @@ export function AuthForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Check if user is already logged in
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authUser");
     if (loggedInUser) {
       const userData = JSON.parse(loggedInUser);
-      // If remember me was checked and token hasn't expired
       if (userData.rememberMe && userData.expiresAt > Date.now()) {
         toast({
           title: "Welcome back!",
           description: `You're already logged in as ${userData.email}`,
         });
-        navigate("/dashboard"); // Redirect to dashboard (you can create this route later)
+        navigate("/dashboard");
       }
     }
   }, [navigate, toast]);
@@ -44,7 +41,6 @@ export function AuthForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    // For account creation, validate passwords match
     if (isCreateAccount && password !== confirmPassword) {
       toast({
         title: "Passwords don't match",
@@ -55,22 +51,18 @@ export function AuthForm() {
       return;
     }
 
-    // Simulate authentication
     setTimeout(() => {
-      // In a real app, you would validate with a backend service
       const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
       const user = storedUsers.find((u: UserData) => u.email === email);
 
       if (isCreateAccount) {
         if (user) {
-          // User already exists
           toast({
             title: "Account already exists",
             description: "This email is already registered. Please sign in instead.",
             variant: "destructive",
           });
         } else {
-          // Create new account
           const newUser = { email, password, rememberMe };
           storedUsers.push(newUser);
           localStorage.setItem("users", JSON.stringify(storedUsers));
@@ -82,7 +74,6 @@ export function AuthForm() {
           });
         }
       } else {
-        // Sign in flow
         if (!user) {
           toast({
             title: "Account not found",
@@ -90,14 +81,12 @@ export function AuthForm() {
             variant: "destructive",
           });
         } else if (user.password === password) {
-          // Successful login
           authenticateUser({ ...user, rememberMe });
           toast({
             title: "Login successful",
             description: "Welcome back!",
           });
         } else {
-          // Failed login
           toast({
             title: "Authentication failed",
             description: "Invalid email or password",
@@ -116,22 +105,20 @@ export function AuthForm() {
       rememberMe: userData.rememberMe,
       token: generateToken(),
       expiresAt: userData.rememberMe 
-        ? Date.now() + (30 * 24 * 60 * 60 * 1000) // 30 days
-        : Date.now() + (1 * 60 * 60 * 1000) // 1 hour
+        ? Date.now() + (30 * 24 * 60 * 60 * 1000)
+        : Date.now() + (1 * 60 * 60 * 1000)
     };
     
     localStorage.setItem("authUser", JSON.stringify(authUser));
     navigate("/dashboard");
   };
 
-  // Generate a simple token (in a real app, use JWT or secure token)
   const generateToken = () => {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
   };
 
   const toggleMode = () => {
     setIsCreateAccount(!isCreateAccount);
-    // Clear form fields when toggling
     setPassword("");
     setConfirmPassword("");
   };
@@ -184,9 +171,9 @@ export function AuthForm() {
           </div>
           {!isCreateAccount && (
             <div className="flex justify-end">
-              <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
+              <Link to="/reset-password" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           )}
         </div>
