@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, Mail, Lock, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { Captcha } from "./Captcha";
 
 interface UserData {
   email: string;
@@ -20,6 +22,7 @@ export function AuthForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateAccount, setIsCreateAccount] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -39,6 +42,16 @@ export function AuthForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isCaptchaVerified) {
+      toast({
+        title: "CAPTCHA verification required",
+        description: "Please complete the CAPTCHA verification first",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsLoading(true);
 
     if (isCreateAccount && password !== confirmPassword) {
@@ -121,6 +134,7 @@ export function AuthForm() {
     setIsCreateAccount(!isCreateAccount);
     setPassword("");
     setConfirmPassword("");
+    setIsCaptchaVerified(false);
   };
 
   return (
@@ -197,6 +211,8 @@ export function AuthForm() {
           </div>
         )}
         
+        <Captcha onVerify={(verified) => setIsCaptchaVerified(verified)} />
+        
         <div className="flex items-center space-x-2">
           <Checkbox 
             id="remember" 
@@ -210,8 +226,8 @@ export function AuthForm() {
         
         <Button 
           type="submit" 
-          className="auth-btn w-full flex items-center justify-center gap-2" 
-          disabled={isLoading}
+          className={`auth-btn w-full flex items-center justify-center gap-2 ${!isCaptchaVerified && 'opacity-50 cursor-not-allowed'}`}
+          disabled={isLoading || !isCaptchaVerified}
         >
           {isLoading ? (isCreateAccount ? 'Creating account...' : 'Signing in...') : (
             <>
