@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +7,7 @@ import { ArrowRight, UserPlus, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { Captcha } from "./Captcha";
+import { PasswordStrength } from "./PasswordStrength";
 
 interface UserData {
   email: string;
@@ -194,6 +194,9 @@ export function AuthForm() {
               }
             </button>
           </div>
+          
+          {password && <PasswordStrength password={password} />}
+          
           {!isCreateAccount && (
             <div className="flex justify-end">
               <Link to="/reset-password" className="text-sm text-burgundy hover:text-burgundy-light transition-colors transform hover:translate-x-1 duration-200">
