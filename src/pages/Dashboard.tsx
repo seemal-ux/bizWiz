@@ -1,8 +1,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { StatCard } from "@/components/dashboard/StatCard";
+import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 
 interface AuthUser {
   email: string;
@@ -41,69 +44,93 @@ const Dashboard = () => {
     setUser(userData);
   }, [navigate, toast]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("authUser");
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out",
-    });
-    navigate("/");
-  };
-
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-500 via-dark-400 to-dark-300">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cmVjdCBmaWxsPSIjMUExRjJDIiB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NjgiLz48cGF0aCBkPSJNNTk4LjMxMSAzODRjMTEyLjMxMyAwIDIwMy4zMTEtOTAuOTk4IDIwMy4zMTEtMjAzLjMxMVM3MTAuNjI0LTIyLjYyMiA1OTguMzExLTIyLjYyMiAzOTUgNjguMzc2IDM5NSAxODAuNjg5IDQ4NS45OTggMzg0IDU5OC4zMTEgMzg0em0yNDMuMzczIDQ0LjYyMmMxMTIuMzEzIDAgMjAzLjMxMS05MC45OTggMjAzLjMxMS0yMDMuMzExUzk1My45OTcgMjIgODQxLjY4NCAyMiA2MzguMzczIDExMi45OTggNjM4LjM3MyAyMjUuMzExIDcyOS4zNzEgNDI4LjYyMiA4NDEuNjg0IDQyOC42MjJ6IiBmaWxsPSIjMjIxRjI2IiBvcGFjaXR5PSIuNSIvPjwvZz48L3N2Zz4=')] opacity-30 mix-blend-overlay pointer-events-none"></div>
-      
-      <header className="fixed top-0 w-full px-6 py-6">
-        <div className="max-w-7xl mx-auto flex justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-gradient-to-br from-auth-accent to-auth-highlight rounded-md"></div>
-            <span className="font-display font-bold text-white text-xl">Auth.io</span>
-          </div>
-          <nav className="flex items-center">
-            <Button 
-              variant="outline" 
-              className="text-sm text-white hover:text-gray-300 border-burgundy hover:bg-burgundy/20"
-              onClick={handleLogout}
-            >
-              Sign out
-            </Button>
-          </nav>
-        </div>
-      </header>
-      
-      <main className="min-h-screen flex items-center justify-center p-6">
-        <div className="auth-glass p-8 sm:p-12 w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-display font-bold text-white mb-2">Dashboard</h1>
-            <p className="text-auth-muted">Welcome to your account dashboard</p>
-          </div>
-          
+    <DashboardLayout>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-white">Welcome back!</h1>
+        <p className="text-auth-muted">Here's what's happening with your account today.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatCard 
+          title="Total Users" 
+          value="1,257"
+          description="Active accounts" 
+          icon={Users}
+          trend="up"
+          trendValue="12% from last month"
+        />
+        <StatCard 
+          title="Revenue" 
+          value="$24,780"
+          description="Monthly earnings" 
+          icon={CreditCard}
+          trend="up"
+          trendValue="8% from last month"
+        />
+        <StatCard 
+          title="Active Sessions" 
+          value="320"
+          description="Currently online" 
+          icon={Activity}
+          trend="neutral"
+          trendValue="Same as yesterday"
+        />
+        <StatCard 
+          title="Conversion" 
+          value="12.3%"
+          description="From all visitors" 
+          icon={TrendingUp}
+          trend="down"
+          trendValue="3% from last week"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <DashboardCard title="Account Information">
           <div className="space-y-4">
-            <div className="bg-dark-300/50 p-4 rounded-lg">
-              <p className="text-gray-300 text-sm">Logged in as:</p>
-              <p className="text-white font-medium">{user.email}</p>
+            <div>
+              <p className="text-sm text-auth-muted">Email</p>
+              <p className="text-white">{user.email}</p>
             </div>
-            
-            <div className="bg-dark-300/50 p-4 rounded-lg">
-              <p className="text-gray-300 text-sm">Session expires:</p>
-              <p className="text-white font-medium">
+            <div>
+              <p className="text-sm text-auth-muted">Session Expires</p>
+              <p className="text-white">
                 {new Date(user.expiresAt).toLocaleString()}
               </p>
             </div>
-            
-            <Button 
-              className="w-full auth-btn mt-4" 
-              onClick={handleLogout}
-            >
-              Sign out
-            </Button>
           </div>
-        </div>
-      </main>
-    </div>
+        </DashboardCard>
+        
+        <DashboardCard title="Recent Activity">
+          <div className="space-y-4">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
+              <div>
+                <p className="text-sm text-white">Successful login</p>
+                <p className="text-xs text-auth-muted">{new Date().toLocaleString()}</p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
+              <div>
+                <p className="text-sm text-white">Password changed</p>
+                <p className="text-xs text-auth-muted">{new Date(Date.now() - 86400000).toLocaleString()}</p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-blue-400 mr-2"></div>
+              <div>
+                <p className="text-sm text-white">Profile updated</p>
+                <p className="text-xs text-auth-muted">{new Date(Date.now() - 172800000).toLocaleString()}</p>
+              </div>
+            </div>
+          </div>
+        </DashboardCard>
+      </div>
+    </DashboardLayout>
   );
 };
 
