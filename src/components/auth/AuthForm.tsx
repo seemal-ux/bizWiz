@@ -37,7 +37,7 @@ export function AuthForm() {
           title: "Welcome back!",
           description: `You're already logged in as ${userData.email}`,
         });
-        navigate("/dashboard");
+        navigate("/home");
       }
     }
   }, [navigate, toast]);
@@ -125,7 +125,7 @@ export function AuthForm() {
     };
     
     localStorage.setItem("authUser", JSON.stringify(authUser));
-    navigate("/dashboard");
+    navigate("/home");
   };
 
   const generateToken = () => {

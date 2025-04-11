@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { LayoutDashboard, FileText, Settings, LogOut, User } from "lucide-react";
+import { LayoutDashboard, FileText, Settings, LogOut, User, Home } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -57,6 +57,15 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 <SidebarGroupLabel>Navigation</SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild tooltip="Home">
+                        <Link to="/home">
+                          <Home />
+                          <span>Home</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild tooltip="Dashboard">
                         <Link to="/dashboard">
