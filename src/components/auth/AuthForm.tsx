@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -142,7 +141,7 @@ export function AuthForm() {
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-display font-bold text-white mb-2 animate-fade-in" 
            style={{animationDelay: "0.2s"}}>
-          {isCreateAccount ? "Create an account" : "Welcome back"}
+          {isCreateAccount ? "Create an account" : "Let's Get Started"}
         </h1>
         <p className="text-auth-muted animate-fade-in" style={{animationDelay: "0.3s"}}>
           {isCreateAccount 
