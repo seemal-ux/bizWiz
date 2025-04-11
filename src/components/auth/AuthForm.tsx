@@ -42,10 +42,7 @@ export function AuthForm() {
         </div>
         
         <div className="space-y-2">
-          <div className="flex justify-between">
-            <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
-            <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">Forgot password?</a>
-          </div>
+          <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
             <Input
@@ -57,6 +54,11 @@ export function AuthForm() {
               className="auth-input pl-10"
               required
             />
+          </div>
+          <div className="flex justify-end">
+            <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
+              Forgot password?
+            </a>
           </div>
         </div>
         
