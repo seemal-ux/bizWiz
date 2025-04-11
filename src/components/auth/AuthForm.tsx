@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, Mail, Lock } from "lucide-react";
+import { ArrowRight, Mail, Lock, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -17,8 +17,10 @@ interface UserData {
 export function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreateAccount, setIsCreateAccount] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -42,37 +44,66 @@ export function AuthForm() {
     e.preventDefault();
     setIsLoading(true);
 
+    // For account creation, validate passwords match
+    if (isCreateAccount && password !== confirmPassword) {
+      toast({
+        title: "Passwords don't match",
+        description: "Please make sure both passwords match",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     // Simulate authentication
     setTimeout(() => {
       // In a real app, you would validate with a backend service
       const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
       const user = storedUsers.find((u: UserData) => u.email === email);
 
-      if (!user) {
-        // User doesn't exist, create new account
-        const newUser = { email, password, rememberMe };
-        storedUsers.push(newUser);
-        localStorage.setItem("users", JSON.stringify(storedUsers));
-        
-        authenticateUser(newUser);
-        toast({
-          title: "Account created",
-          description: "Your account has been created and you're now logged in",
-        });
-      } else if (user.password === password) {
-        // Successful login
-        authenticateUser({ ...user, rememberMe });
-        toast({
-          title: "Login successful",
-          description: "Welcome back!",
-        });
+      if (isCreateAccount) {
+        if (user) {
+          // User already exists
+          toast({
+            title: "Account already exists",
+            description: "This email is already registered. Please sign in instead.",
+            variant: "destructive",
+          });
+        } else {
+          // Create new account
+          const newUser = { email, password, rememberMe };
+          storedUsers.push(newUser);
+          localStorage.setItem("users", JSON.stringify(storedUsers));
+          
+          authenticateUser(newUser);
+          toast({
+            title: "Account created",
+            description: "Your account has been created and you're now logged in",
+          });
+        }
       } else {
-        // Failed login
-        toast({
-          title: "Authentication failed",
-          description: "Invalid email or password",
-          variant: "destructive",
-        });
+        // Sign in flow
+        if (!user) {
+          toast({
+            title: "Account not found",
+            description: "No account found with this email. Please create an account.",
+            variant: "destructive",
+          });
+        } else if (user.password === password) {
+          // Successful login
+          authenticateUser({ ...user, rememberMe });
+          toast({
+            title: "Login successful",
+            description: "Welcome back!",
+          });
+        } else {
+          // Failed login
+          toast({
+            title: "Authentication failed",
+            description: "Invalid email or password",
+            variant: "destructive",
+          });
+        }
       }
       
       setIsLoading(false);
@@ -90,10 +121,7 @@ export function AuthForm() {
     };
     
     localStorage.setItem("authUser", JSON.stringify(authUser));
-    
-    if (authUser.rememberMe) {
-      navigate("/dashboard"); // Redirect to dashboard (you can create this route later)
-    }
+    navigate("/dashboard");
   };
 
   // Generate a simple token (in a real app, use JWT or secure token)
@@ -101,11 +129,24 @@ export function AuthForm() {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
   };
 
+  const toggleMode = () => {
+    setIsCreateAccount(!isCreateAccount);
+    // Clear form fields when toggling
+    setPassword("");
+    setConfirmPassword("");
+  };
+
   return (
     <div className="w-full max-w-md animate-fade-in">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-display font-bold text-white mb-2">Welcome back</h1>
-        <p className="text-auth-muted">Enter your credentials to access your account</p>
+        <h1 className="text-3xl font-display font-bold text-white mb-2">
+          {isCreateAccount ? "Create an account" : "Welcome back"}
+        </h1>
+        <p className="text-auth-muted">
+          {isCreateAccount 
+            ? "Enter your details to create your account" 
+            : "Enter your credentials to access your account"}
+        </p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -141,12 +182,33 @@ export function AuthForm() {
               disabled={isLoading}
             />
           </div>
-          <div className="flex justify-end">
-            <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
-              Forgot password?
-            </a>
-          </div>
+          {!isCreateAccount && (
+            <div className="flex justify-end">
+              <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
+                Forgot password?
+              </a>
+            </div>
+          )}
         </div>
+        
+        {isCreateAccount && (
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword" className="text-sm text-gray-300">Confirm Password</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                className="auth-input pl-10"
+                required
+                disabled={isLoading}
+              />
+            </div>
+          </div>
+        )}
         
         <div className="flex items-center space-x-2">
           <Checkbox 
@@ -164,9 +226,13 @@ export function AuthForm() {
           className="auth-btn w-full flex items-center justify-center gap-2" 
           disabled={isLoading}
         >
-          {isLoading ? 'Signing in...' : (
+          {isLoading ? (isCreateAccount ? 'Creating account...' : 'Signing in...') : (
             <>
-              Sign in <ArrowRight className="h-4 w-4" />
+              {isCreateAccount ? (
+                <>Create account <UserPlus className="h-4 w-4" /></>
+              ) : (
+                <>Sign in <ArrowRight className="h-4 w-4" /></>
+              )}
             </>
           )}
         </Button>
@@ -174,10 +240,14 @@ export function AuthForm() {
       
       <div className="mt-6 text-center">
         <p className="text-auth-muted text-sm">
-          Don't have an account?{" "}
-          <a href="#" className="text-burgundy hover:text-burgundy-light transition-colors">
-            Create account
-          </a>
+          {isCreateAccount ? "Already have an account?" : "Don't have an account?"}{" "}
+          <button 
+            type="button"
+            onClick={toggleMode}
+            className="text-burgundy hover:text-burgundy-light transition-colors"
+          >
+            {isCreateAccount ? "Sign in" : "Create account"}
+          </button>
         </p>
       </div>
     </div>
