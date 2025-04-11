@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, UserPlus } from "lucide-react";
+import { ArrowRight, UserPlus, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { Captcha } from "./Captcha";
@@ -22,6 +23,8 @@ export function AuthForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateAccount, setIsCreateAccount] = useState(false);
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -169,17 +172,27 @@ export function AuthForm() {
         
         <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.5s"}}>
           <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
-          <div className="transition-all duration-200 hover:shadow-md">
+          <div className="transition-all duration-200 hover:shadow-md relative">
             <Input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent"
+              className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent pr-10"
               required
               disabled={isLoading}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 text-auth-muted hover:text-auth-accent transition-colors"
+            >
+              {showPassword ? 
+                <EyeOff className="h-5 w-5" aria-hidden="true" /> : 
+                <Eye className="h-5 w-5" aria-hidden="true" />
+              }
+            </button>
           </div>
           {!isCreateAccount && (
             <div className="flex justify-end">
@@ -193,17 +206,27 @@ export function AuthForm() {
         {isCreateAccount && (
           <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.6s"}}>
             <Label htmlFor="confirmPassword" className="text-sm text-gray-300">Confirm Password</Label>
-            <div className="transition-all duration-200 hover:shadow-md">
+            <div className="transition-all duration-200 hover:shadow-md relative">
               <Input
                 id="confirmPassword"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent"
+                className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent pr-10"
                 required
                 disabled={isLoading}
               />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-3 text-auth-muted hover:text-auth-accent transition-colors"
+              >
+                {showConfirmPassword ? 
+                  <EyeOff className="h-5 w-5" aria-hidden="true" /> : 
+                  <Eye className="h-5 w-5" aria-hidden="true" />
+                }
+              </button>
             </div>
           </div>
         )}
