@@ -44,7 +44,7 @@ export function AuthForm() {
         <div className="space-y-2">
           <div className="flex justify-between">
             <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
-            <a href="#" className="text-sm text-auth-accent hover:underline">Forgot password?</a>
+            <a href="#" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">Forgot password?</a>
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
@@ -65,7 +65,7 @@ export function AuthForm() {
             id="remember" 
             checked={rememberMe} 
             onCheckedChange={(checked) => setRememberMe(checked === true)}
-            className="bg-dark-300 border-0 data-[state=checked]:bg-auth-accent"
+            className="bg-dark-300 border-0 data-[state=checked]:bg-burgundy"
           />
           <Label htmlFor="remember" className="text-sm text-gray-300">Remember me for 30 days</Label>
         </div>
@@ -78,7 +78,7 @@ export function AuthForm() {
       <div className="mt-6 text-center">
         <p className="text-auth-muted text-sm">
           Don't have an account?{" "}
-          <a href="#" className="text-auth-accent hover:underline">
+          <a href="#" className="text-burgundy hover:text-burgundy-light transition-colors">
             Create account
           </a>
         </p>
