@@ -138,12 +138,13 @@ export function AuthForm() {
   };
 
   return (
-    <div className="w-full max-w-md animate-fade-in">
+    <div className="w-full max-w-md transform transition-all duration-500 animate-fade-in">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-display font-bold text-white mb-2">
+        <h1 className="text-3xl font-display font-bold text-white mb-2 animate-fade-in" 
+           style={{animationDelay: "0.2s"}}>
           {isCreateAccount ? "Create an account" : "Welcome back"}
         </h1>
-        <p className="text-auth-muted">
+        <p className="text-auth-muted animate-fade-in" style={{animationDelay: "0.3s"}}>
           {isCreateAccount 
             ? "Enter your details to create your account" 
             : "Enter your credentials to access your account"}
@@ -151,41 +152,41 @@ export function AuthForm() {
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="space-y-2">
+        <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.4s"}}>
           <Label htmlFor="email" className="text-sm text-gray-300">Email address</Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
+          <div className="relative transition-all duration-200 hover:shadow-md group">
+            <Mail className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="auth-input pl-10"
+              className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
               required
               disabled={isLoading}
             />
           </div>
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.5s"}}>
           <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
+          <div className="relative transition-all duration-200 hover:shadow-md group">
+            <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
             <Input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="auth-input pl-10"
+              className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
               required
               disabled={isLoading}
             />
           </div>
           {!isCreateAccount && (
             <div className="flex justify-end">
-              <Link to="/reset-password" className="text-sm text-burgundy hover:text-burgundy-light transition-colors">
+              <Link to="/reset-password" className="text-sm text-burgundy hover:text-burgundy-light transition-colors transform hover:translate-x-1 duration-200">
                 Forgot password?
               </Link>
             </div>
@@ -193,17 +194,17 @@ export function AuthForm() {
         </div>
         
         {isCreateAccount && (
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.6s"}}>
             <Label htmlFor="confirmPassword" className="text-sm text-gray-300">Confirm Password</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted" />
+            <div className="relative transition-all duration-200 hover:shadow-md group">
+              <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
               <Input
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="auth-input pl-10"
+                className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
                 required
                 disabled={isLoading}
               />
@@ -211,14 +212,16 @@ export function AuthForm() {
           </div>
         )}
         
-        <Captcha onVerify={(verified) => setIsCaptchaVerified(verified)} />
+        <div className="animate-fade-in" style={{animationDelay: "0.7s"}}>
+          <Captcha onVerify={(verified) => setIsCaptchaVerified(verified)} />
+        </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 animate-fade-in" style={{animationDelay: "0.8s"}}>
           <Checkbox 
             id="remember" 
             checked={rememberMe} 
             onCheckedChange={(checked) => setRememberMe(checked === true)}
-            className="bg-dark-300 border-0 data-[state=checked]:bg-burgundy"
+            className="bg-dark-300 border-0 data-[state=checked]:bg-burgundy transition-colors duration-200"
             disabled={isLoading}
           />
           <Label htmlFor="remember" className="text-sm text-gray-300">Remember me for 30 days</Label>
@@ -226,28 +229,29 @@ export function AuthForm() {
         
         <Button 
           type="submit" 
-          className={`auth-btn w-full flex items-center justify-center gap-2 ${!isCaptchaVerified && 'opacity-50 cursor-not-allowed'}`}
+          className={`auth-btn w-full flex items-center justify-center gap-2 transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${!isCaptchaVerified && 'opacity-50 cursor-not-allowed'} ${isLoading ? 'animate-pulse' : ''} animate-fade-in`}
+          style={{animationDelay: "0.9s"}}
           disabled={isLoading || !isCaptchaVerified}
         >
           {isLoading ? (isCreateAccount ? 'Creating account...' : 'Signing in...') : (
             <>
               {isCreateAccount ? (
-                <>Create account <UserPlus className="h-4 w-4" /></>
+                <>Create account <UserPlus className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" /></>
               ) : (
-                <>Sign in <ArrowRight className="h-4 w-4" /></>
+                <>Sign in <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" /></>
               )}
             </>
           )}
         </Button>
       </form>
       
-      <div className="mt-6 text-center">
+      <div className="mt-6 text-center animate-fade-in" style={{animationDelay: "1s"}}>
         <p className="text-auth-muted text-sm">
           {isCreateAccount ? "Already have an account?" : "Don't have an account?"}{" "}
           <button 
             type="button"
             onClick={toggleMode}
-            className="text-burgundy hover:text-burgundy-light transition-colors"
+            className="text-burgundy hover:text-burgundy-light transition-all duration-300 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-burgundy after:origin-bottom-right after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 hover:after:origin-bottom-left"
           >
             {isCreateAccount ? "Sign in" : "Create account"}
           </button>
