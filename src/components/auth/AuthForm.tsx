@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, Mail, Lock, UserPlus } from "lucide-react";
+import { ArrowRight, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { Captcha } from "./Captcha";
@@ -153,15 +153,14 @@ export function AuthForm() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.4s"}}>
           <Label htmlFor="email" className="text-sm text-gray-300">Email address</Label>
-          <div className="relative transition-all duration-200 hover:shadow-md group">
-            <Mail className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
+          <div className="transition-all duration-200 hover:shadow-md">
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
+              className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent"
               required
               disabled={isLoading}
             />
@@ -170,15 +169,14 @@ export function AuthForm() {
         
         <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.5s"}}>
           <Label htmlFor="password" className="text-sm text-gray-300">Password</Label>
-          <div className="relative transition-all duration-200 hover:shadow-md group">
-            <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
+          <div className="transition-all duration-200 hover:shadow-md">
             <Input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
+              className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent"
               required
               disabled={isLoading}
             />
@@ -195,15 +193,14 @@ export function AuthForm() {
         {isCreateAccount && (
           <div className="space-y-2 animate-fade-in" style={{animationDelay: "0.6s"}}>
             <Label htmlFor="confirmPassword" className="text-sm text-gray-300">Confirm Password</Label>
-            <div className="relative transition-all duration-200 hover:shadow-md group">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-auth-muted transition-colors group-hover:text-auth-accent" />
+            <div className="transition-all duration-200 hover:shadow-md">
               <Input
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="auth-input pl-10 transition-all duration-200 border border-transparent focus:border-auth-accent"
+                className="auth-input transition-all duration-200 border border-transparent focus:border-auth-accent"
                 required
                 disabled={isLoading}
               />
