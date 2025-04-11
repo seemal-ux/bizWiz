@@ -16,13 +16,17 @@ export function Captcha({ onVerify }: CaptchaProps) {
   const generateCaptcha = () => {
     setIsRefreshing(true);
     
-    // Generate a simple alphanumeric CAPTCHA (readable)
-    const characters = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
-    let result = "";
-    const length = 6; // 6 characters is easy to read but still secure enough
+    // Generate an alphanumeric CAPTCHA that always starts with an uppercase letter
+    const uppercaseChars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const otherChars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
     
+    // Start with an uppercase letter
+    let result = uppercaseChars.charAt(Math.floor(Math.random() * uppercaseChars.length));
+    
+    // Add remaining characters
+    const length = 5; // One less because we already added the first uppercase letter
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+      result += otherChars.charAt(Math.floor(Math.random() * otherChars.length));
     }
     
     setCaptchaText(result);
