@@ -118,25 +118,6 @@ const Dashboard = () => {
           <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
             <FileUpload />
           </div>
-      
-          <DashboardCard 
-            title="Account Information" 
-            className="animate-fade-in" 
-            style={{ animationDelay: '0.6s' }}
-          >
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-auth-muted">Email</p>
-                <p className="text-white">{user.email}</p>
-              </div>
-              <div>
-                <p className="text-sm text-auth-muted">Session Expires</p>
-                <p className="text-white">
-                  {new Date(user.expiresAt).toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </DashboardCard>
         </div>
 
         <div className="space-y-6">
