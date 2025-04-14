@@ -11,6 +11,7 @@ interface StatCardProps {
   trend?: "up" | "down" | "neutral";
   trendValue?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const StatCard = ({ 
@@ -20,10 +21,14 @@ export const StatCard = ({
   icon: Icon, 
   trend,
   trendValue,
-  className 
+  className,
+  style
 }: StatCardProps) => {
   return (
-    <div className={cn("bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6", className)}>
+    <div 
+      className={cn("bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300", className)}
+      style={style}
+    >
       <div className="flex justify-between items-start">
         <div>
           <p className="text-auth-muted text-sm">{title}</p>
@@ -33,13 +38,13 @@ export const StatCard = ({
           {trend && trendValue && (
             <div className="mt-2 flex items-center">
               <span className={cn(
-                "text-xs font-medium flex items-center",
+                "text-xs font-medium flex items-center space-x-1",
                 trend === "up" && "text-green-400",
                 trend === "down" && "text-red-400",
                 trend === "neutral" && "text-auth-muted"
               )}>
-                {trend === "up" && "▲"}
-                {trend === "down" && "▼"}
+                {trend === "up" && "▲ "}
+                {trend === "down" && "▼ "}
                 {trendValue}
               </span>
             </div>
@@ -47,7 +52,7 @@ export const StatCard = ({
         </div>
         
         {Icon && (
-          <div className="bg-white/10 p-3 rounded-lg">
+          <div className="bg-auth-accent/10 p-3 rounded-xl">
             <Icon className="h-5 w-5 text-auth-accent" />
           </div>
         )}

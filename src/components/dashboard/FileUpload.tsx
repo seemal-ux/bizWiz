@@ -56,12 +56,12 @@ export function FileUpload() {
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-8 mt-6">
+    <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-8 mt-6 shadow-lg transition-all duration-300">
       <h2 className="text-xl font-bold mb-4 text-white">Upload Document</h2>
       
       <div 
-        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-          isDragging ? 'border-burgundy bg-dark-400' : 'border-gray-600 hover:border-burgundy'
+        className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
+          isDragging ? 'border-auth-accent bg-white/5' : 'border-gray-600 hover:border-auth-accent'
         }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -69,7 +69,7 @@ export function FileUpload() {
       >
         {!file ? (
           <div className="flex flex-col items-center">
-            <Upload className="h-12 w-12 text-gray-400 mb-4" />
+            <Upload className="h-12 w-12 text-auth-accent mb-4" />
             <h3 className="text-xl font-medium mb-2 text-white">Upload your document</h3>
             <p className="text-gray-400 mb-4 max-w-md mx-auto">
               Drag and drop your PDF or Word document, or click to browse files
@@ -84,19 +84,19 @@ export function FileUpload() {
             <Button
               onClick={() => document.getElementById('file-upload')?.click()}
               variant="outline"
-              className="bg-dark-300"
+              className="bg-auth-accent hover:bg-auth-accent/80 text-white border-0"
             >
               Browse Files
             </Button>
           </div>
         ) : (
-          <div className="flex items-center justify-between p-4 bg-dark-300 rounded-md">
+          <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl backdrop-blur-sm">
             <div className="flex items-center">
-              <div className="bg-burgundy/20 p-2 rounded-md mr-3">
+              <div className="bg-auth-accent/20 p-3 rounded-xl mr-3">
                 {file.type.includes("pdf") ? (
-                  <File className="h-6 w-6 text-burgundy" />
+                  <File className="h-6 w-6 text-auth-accent" />
                 ) : (
-                  <File className="h-6 w-6 text-burgundy" />
+                  <File className="h-6 w-6 text-auth-accent" />
                 )}
               </div>
               <div className="text-left">
@@ -108,7 +108,7 @@ export function FileUpload() {
               variant="ghost"
               size="icon"
               onClick={removeFile}
-              className="text-gray-400 hover:text-white"
+              className="text-gray-400 hover:text-white hover:bg-white/10"
             >
               <X className="h-4 w-4" />
             </Button>
