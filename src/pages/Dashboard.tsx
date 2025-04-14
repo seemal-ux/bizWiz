@@ -6,7 +6,10 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
-import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
+import { N8nConfig } from "@/components/dashboard/N8nConfig";
+import { Users, CreditCard, Activity, TrendingUp, Lightbulb } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 interface AuthUser {
   email: string;
@@ -17,8 +20,9 @@ interface AuthUser {
 
 const Dashboard = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [showIdeaDialog, setShowIdeaDialog] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { toast: useToastFn } = useToast();
 
   useEffect(() => {
     const authUser = localStorage.getItem("authUser");
@@ -33,7 +37,7 @@ const Dashboard = () => {
     // Check if token has expired
     if (userData.expiresAt < Date.now()) {
       localStorage.removeItem("authUser");
-      toast({
+      useToastFn({
         title: "Session expired",
         description: "Please log in again",
         variant: "destructive",
@@ -43,7 +47,20 @@ const Dashboard = () => {
     }
     
     setUser(userData);
-  }, [navigate, toast]);
+  }, [navigate, useToastFn]);
+
+  const handleGenerateQuickIdea = () => {
+    const ideas = [
+      "Mobile app for tracking local farmers markets",
+      "Online platform connecting seniors with tech support",
+      "Subscription service for eco-friendly office supplies",
+      "AI-powered personal finance advisor for freelancers",
+      "Community-based tool sharing platform"
+    ];
+    
+    const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
+    toast.success(`Quick idea: ${randomIdea}`);
+  };
 
   if (!user) return null;
 
@@ -86,71 +103,87 @@ const Dashboard = () => {
           style={{ animationDelay: '0.3s' }}
         />
         <StatCard 
-          title="Conversion" 
-          value="12.3%"
-          description="From all visitors" 
-          icon={TrendingUp}
-          trend="down"
-          trendValue="3% from last week"
+          title="Generate Idea" 
+          value="Quick Idea"
+          description="Get instant business concept" 
+          icon={Lightbulb}
           className="animate-fade-in" 
-          style={{ animationDelay: '0.4s' }}
+          style={{ animationDelay: '0.4s', borderColor: 'rgba(249, 115, 22, 0.2)' }}
+          onClick={handleGenerateQuickIdea}
         />
       </div>
       
-      <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
-        <FileUpload />
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <FileUpload />
+          </div>
+      
+          <DashboardCard 
+            title="Account Information" 
+            className="animate-fade-in" 
+            style={{ animationDelay: '0.6s' }}
+          >
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-auth-muted">Email</p>
+                <p className="text-white">{user.email}</p>
+              </div>
+              <div>
+                <p className="text-sm text-auth-muted">Session Expires</p>
+                <p className="text-white">
+                  {new Date(user.expiresAt).toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </DashboardCard>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <DashboardCard 
-          title="Account Information" 
-          className="animate-fade-in" 
-          style={{ animationDelay: '0.6s' }}
-        >
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm text-auth-muted">Email</p>
-              <p className="text-white">{user.email}</p>
-            </div>
-            <div>
-              <p className="text-sm text-auth-muted">Session Expires</p>
-              <p className="text-white">
-                {new Date(user.expiresAt).toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </DashboardCard>
-        
-        <DashboardCard 
-          title="Recent Activity" 
-          className="animate-fade-in" 
-          style={{ animationDelay: '0.7s' }}
-        >
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
-              <div>
-                <p className="text-sm text-white">Successful login</p>
-                <p className="text-xs text-auth-muted">{new Date().toLocaleString()}</p>
+        <div className="space-y-6">
+          <N8nConfig />
+          
+          <DashboardCard 
+            title="Recent Activity" 
+            className="animate-fade-in" 
+            style={{ animationDelay: '0.7s' }}
+          >
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
+                <div>
+                  <p className="text-sm text-white">Successful login</p>
+                  <p className="text-xs text-auth-muted">{new Date().toLocaleString()}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
+                <div>
+                  <p className="text-sm text-white">File uploaded</p>
+                  <p className="text-xs text-auth-muted">{new Date(Date.now() - 3600000).toLocaleString()}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-blue-400 mr-2"></div>
+                <div>
+                  <p className="text-sm text-white">Business idea generated</p>
+                  <p className="text-xs text-auth-muted">{new Date(Date.now() - 172800000).toLocaleString()}</p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
-              <div>
-                <p className="text-sm text-white">File uploaded</p>
-                <p className="text-xs text-auth-muted">{new Date(Date.now() - 3600000).toLocaleString()}</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-blue-400 mr-2"></div>
-              <div>
-                <p className="text-sm text-white">Profile updated</p>
-                <p className="text-xs text-auth-muted">{new Date(Date.now() - 172800000).toLocaleString()}</p>
-              </div>
-            </div>
-          </div>
-        </DashboardCard>
+          </DashboardCard>
+        </div>
       </div>
+      
+      <Dialog open={showIdeaDialog} onOpenChange={setShowIdeaDialog}>
+        <DialogContent className="bg-dark-400 text-white border-gray-700">
+          <DialogHeader>
+            <DialogTitle>Business Idea Generator</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-gray-300">Configure your n8n workflow to generate business ideas.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 };

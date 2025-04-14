@@ -12,6 +12,7 @@ interface StatCardProps {
   trendValue?: string;
   className?: string;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
 export const StatCard = ({ 
@@ -22,12 +23,14 @@ export const StatCard = ({
   trend,
   trendValue,
   className,
-  style
+  style,
+  onClick
 }: StatCardProps) => {
   return (
     <div 
-      className={cn("bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300", className)}
+      className={cn("bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer", className)}
       style={style}
+      onClick={onClick}
     >
       <div className="flex justify-between items-start">
         <div>
