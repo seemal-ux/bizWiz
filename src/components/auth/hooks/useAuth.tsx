@@ -25,7 +25,7 @@ export const useAuth = () => {
           title: "Welcome back!",
           description: `You're already logged in as ${userData.email}`,
         });
-        navigate("/home");
+        navigate("/dashboard");
       }
     }
   }, [navigate, toast]);
@@ -87,7 +87,7 @@ export const useAuth = () => {
           authenticateUser({ ...user, rememberMe });
           toast({
             title: "Login successful",
-            description: "Welcome back!",
+            description: "Welcome to your dashboard!",
           });
         } else {
           toast({
@@ -113,7 +113,7 @@ export const useAuth = () => {
     };
     
     localStorage.setItem("authUser", JSON.stringify(authUser));
-    navigate("/home");
+    navigate("/dashboard");
   };
 
   const generateToken = () => {

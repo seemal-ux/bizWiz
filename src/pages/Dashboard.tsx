@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { StatCard } from "@/components/dashboard/StatCard";
+import { FileUpload } from "@/components/dashboard/FileUpload";
 import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 
 interface AuthUser {
@@ -87,8 +88,10 @@ const Dashboard = () => {
           trendValue="3% from last week"
         />
       </div>
+      
+      <FileUpload />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <DashboardCard title="Account Information">
           <div className="space-y-4">
             <div>
@@ -116,8 +119,8 @@ const Dashboard = () => {
             <div className="flex items-center">
               <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
               <div>
-                <p className="text-sm text-white">Password changed</p>
-                <p className="text-xs text-auth-muted">{new Date(Date.now() - 86400000).toLocaleString()}</p>
+                <p className="text-sm text-white">File uploaded</p>
+                <p className="text-xs text-auth-muted">{new Date(Date.now() - 3600000).toLocaleString()}</p>
               </div>
             </div>
             <div className="flex items-center">
