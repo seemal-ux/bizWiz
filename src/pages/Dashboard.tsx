@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
-import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
+// Removed WelcomeBanner import
 import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -63,7 +63,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <WelcomeBanner userName={user.email.split('@')[0]} />
+      {/* Removed WelcomeBanner component */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard 
