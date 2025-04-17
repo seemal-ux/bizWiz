@@ -19,7 +19,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto flex justify-between">
           <div className="flex items-center space-x-2 animate-fade-in">
             <div className="h-8 w-8 bg-gradient-to-br from-auth-accent to-auth-highlight rounded-md transform hover:scale-105 transition-transform duration-300"></div>
-            <span className="font-display font-bold text-white text-xl">Auth.io</span>
+            <span className="font-display font-bold text-white text-xl">BizWiz</span>
           </div>
           <nav className="animate-fade-in" style={{animationDelay: "0.2s"}}>
             <ul className="flex space-x-6">

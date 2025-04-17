@@ -48,7 +48,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <SidebarHeader className="p-4">
               <div className="flex items-center space-x-2">
                 <div className="h-9 w-9 bg-gradient-to-br from-auth-accent to-auth-highlight rounded-xl shadow-lg"></div>
-                <span className="font-display font-bold text-white text-xl">Auth.io</span>
+                <span className="font-display font-bold text-white text-xl">BizWiz</span>
               </div>
             </SidebarHeader>
             
