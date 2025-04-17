@@ -7,7 +7,9 @@ import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
 import { N8nConfig } from "@/components/dashboard/N8nConfig";
-import { Users, CreditCard, Activity, TrendingUp, Lightbulb } from "lucide-react";
+import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
+import { AnalyticsCard } from "@/components/dashboard/AnalyticsCard";
+import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
@@ -66,10 +68,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="mb-8 animate-fade-in">
-        <h1 className="text-3xl font-bold text-white bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">Welcome back!</h1>
-        <p className="text-auth-muted mt-2">Here's what's happening with your account today.</p>
-      </div>
+      <WelcomeBanner userName={user.email.split('@')[0]} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard 
@@ -103,13 +102,27 @@ const Dashboard = () => {
           style={{ animationDelay: '0.3s' }}
         />
         <StatCard 
-          title="Generate Idea" 
-          value="Quick Idea"
-          description="Get instant business concept" 
-          icon={Lightbulb}
+          title="Growth" 
+          value="+24.5%"
+          description="Compared to last week" 
+          icon={TrendingUp}
+          trend="up"
+          trendValue="4.5% increase"
           className="animate-fade-in" 
-          style={{ animationDelay: '0.4s', borderColor: 'rgba(249, 115, 22, 0.2)' }}
-          onClick={handleGenerateQuickIdea}
+          style={{ animationDelay: '0.4s' }}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <AnalyticsCard
+          title="Monthly Revenue"
+          value="$47,500"
+          description="Last 6 months"
+        />
+        <AnalyticsCard
+          title="User Growth"
+          value="2,345"
+          description="Active users over time"
         />
       </div>
       
@@ -122,7 +135,6 @@ const Dashboard = () => {
 
         <div className="space-y-6">
           <N8nConfig />
-          
           <DashboardCard 
             title="Recent Activity" 
             className="animate-fade-in" 
