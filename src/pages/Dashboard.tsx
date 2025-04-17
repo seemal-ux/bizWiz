@@ -1,14 +1,11 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
 import { N8nConfig } from "@/components/dashboard/N8nConfig";
 import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
-import { AnalyticsCard } from "@/components/dashboard/AnalyticsCard";
 import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -36,7 +33,6 @@ const Dashboard = () => {
     
     const userData: AuthUser = JSON.parse(authUser);
     
-    // Check if token has expired
     if (userData.expiresAt < Date.now()) {
       localStorage.removeItem("authUser");
       useToastFn({
@@ -112,25 +108,10 @@ const Dashboard = () => {
           style={{ animationDelay: '0.4s' }}
         />
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <AnalyticsCard
-          title="Monthly Revenue"
-          value="$47,500"
-          description="Last 6 months"
-        />
-        <AnalyticsCard
-          title="User Growth"
-          value="2,345"
-          description="Active users over time"
-        />
-      </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
-          <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <FileUpload />
-          </div>
+          <FileUpload />
         </div>
 
         <div className="space-y-6">
@@ -153,4 +134,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
