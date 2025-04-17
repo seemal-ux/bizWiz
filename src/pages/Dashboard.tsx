@@ -135,35 +135,6 @@ const Dashboard = () => {
 
         <div className="space-y-6">
           <N8nConfig />
-          <DashboardCard 
-            title="Recent Activity" 
-            className="animate-fade-in" 
-            style={{ animationDelay: '0.7s' }}
-          >
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
-                <div>
-                  <p className="text-sm text-white">Successful login</p>
-                  <p className="text-xs text-auth-muted">{new Date().toLocaleString()}</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
-                <div>
-                  <p className="text-sm text-white">File uploaded</p>
-                  <p className="text-xs text-auth-muted">{new Date(Date.now() - 3600000).toLocaleString()}</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-blue-400 mr-2"></div>
-                <div>
-                  <p className="text-sm text-white">Business idea generated</p>
-                  <p className="text-xs text-auth-muted">{new Date(Date.now() - 172800000).toLocaleString()}</p>
-                </div>
-              </div>
-            </div>
-          </DashboardCard>
         </div>
       </div>
       
@@ -182,3 +153,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
