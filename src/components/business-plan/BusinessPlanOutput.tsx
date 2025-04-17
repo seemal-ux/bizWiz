@@ -2,8 +2,15 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { RefreshCw, Download, Share2 } from "lucide-react";
+import { RefreshCw, Download, Share2, Mail, MessageSquare } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { BusinessPlan } from "@/types/business-plan";
+import { toast } from "sonner";
 
 interface BusinessPlanOutputProps {
   businessPlan: BusinessPlan;
@@ -29,6 +36,21 @@ export function BusinessPlanOutput({ businessPlan, onReset }: BusinessPlanOutput
     URL.revokeObjectURL(url);
   };
 
+  const handleShare = (platform: 'gmail' | 'whatsapp') => {
+    const subject = "Business Plan";
+    const text = `Check out this business plan:\n\nExecutive Summary:\n${businessPlan.executiveSummary}\n\nBusiness Description:\n${businessPlan.businessDescription}`;
+    
+    if (platform === 'gmail') {
+      const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+      window.open(mailtoLink);
+      toast.success("Opening Gmail...");
+    } else if (platform === 'whatsapp') {
+      const whatsappLink = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(whatsappLink);
+      toast.success("Opening WhatsApp...");
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -42,10 +64,24 @@ export function BusinessPlanOutput({ businessPlan, onReset }: BusinessPlanOutput
             <Download className="h-4 w-4 mr-2" />
             Download
           </Button>
-          <Button variant="outline" size="sm">
-            <Share2 className="h-4 w-4 mr-2" />
-            Share
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleShare('gmail')}>
+                <Mail className="h-4 w-4 mr-2" />
+                Share via Gmail
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleShare('whatsapp')}>
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Share via WhatsApp
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
