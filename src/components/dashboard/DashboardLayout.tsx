@@ -125,7 +125,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <SidebarFooter className="p-4">
               <div className="flex justify-between items-center">
                 <div className="text-sm text-auth-muted">
-                  <p>Auth.io Dashboard</p>
+                  <p>BizWiz Dashboard</p>
                   <p className="text-xs opacity-70">v1.0.0</p>
                 </div>
                 <SidebarTrigger className="bg-dark-300 hover:bg-dark-200 text-white rounded-md p-1.5 transition-colors" />
@@ -158,3 +158,4 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     </div>
   );
 };
+

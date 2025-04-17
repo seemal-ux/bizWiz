@@ -44,10 +44,11 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       </main>
       
       <footer className="px-6 py-4 text-center relative z-10 animate-fade-in" style={{animationDelay: "1s"}}>
-        <p className="text-sm text-auth-muted">&copy; 2025 Auth.io. All rights reserved.</p>
+        <p className="text-sm text-auth-muted">&copy; 2025 BizWiz. All rights reserved.</p>
       </footer>
     </div>
   );
 };
 
 export default AuthLayout;
+
