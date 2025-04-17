@@ -4,7 +4,6 @@ import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
-import { N8nConfig } from "@/components/dashboard/N8nConfig";
 import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
 import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -113,22 +112,7 @@ const Dashboard = () => {
         <div className="space-y-6">
           <FileUpload />
         </div>
-
-        <div className="space-y-6">
-          <N8nConfig />
-        </div>
       </div>
-      
-      <Dialog open={showIdeaDialog} onOpenChange={setShowIdeaDialog}>
-        <DialogContent className="bg-dark-400 text-white border-gray-700">
-          <DialogHeader>
-            <DialogTitle>Business Idea Generator</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p className="text-gray-300">Configure your n8n workflow to generate business ideas.</p>
-          </div>
-        </DialogContent>
-      </Dialog>
     </DashboardLayout>
   );
 };
