@@ -1,10 +1,11 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
-// Removed WelcomeBanner import
+import { BuildVsBuyAdvisor } from "@/components/dashboard/BuildVsBuyAdvisor";
 import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -63,8 +64,6 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      {/* Removed WelcomeBanner component */}
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard 
           title="Total Users" 
@@ -111,6 +110,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
           <FileUpload />
+          <BuildVsBuyAdvisor />
         </div>
       </div>
     </DashboardLayout>
