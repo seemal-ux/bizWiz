@@ -6,7 +6,8 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { FileUpload } from "@/components/dashboard/FileUpload";
 import { BuildVsBuyAdvisor } from "@/components/dashboard/BuildVsBuyAdvisor";
-import { Users, CreditCard, Activity, TrendingUp } from "lucide-react";
+import { N8nConfig } from "@/components/dashboard/N8nConfig";
+import { Users, CreditCard, Activity, TrendingUp, Archive } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
@@ -111,6 +112,9 @@ const Dashboard = () => {
         <div className="space-y-6">
           <FileUpload />
           <BuildVsBuyAdvisor />
+        </div>
+        <div className="space-y-6">
+          <N8nConfig />
         </div>
       </div>
     </DashboardLayout>
